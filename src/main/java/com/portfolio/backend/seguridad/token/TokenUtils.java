@@ -1,13 +1,16 @@
 package com.portfolio.backend.seguridad.token;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-// import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 
 import com.portfolio.backend.seguridad.roles.Rol;
 
@@ -18,14 +21,14 @@ import io.jsonwebtoken.security.Keys;
 
 public class TokenUtils {
 
-   private final static String jwtSecret = "cl4v3su93r$3cr3t4cl4v3su93r$3cr3t4";
-   private final static Long jwtExpiracion = 86400L;
+   // private final static String jwtSecret = "mi-clave-secreta";
+   // private final static Long jwtExpiracion = 86400L;
    
-   // @Value("${appJwtSecret}")
-   // private final static String jwtSecret;
+   @Value("${app.jwtSecret}")
+   private static String jwtSecret;
 
-   // @Value("${appJwtExpiration}")
-   // private final static Long jwtExpiration;
+   @Value("${app.jwtExpiracion}")
+   private static Long jwtExpiracion;
 
    // Creamos el token a enviar al cliente
    public static String crearToken(String username, String name, Set<Rol> roles){
@@ -34,11 +37,12 @@ public class TokenUtils {
       
       // El extra es los datos que agregamos al token payload
       Map<String, Object> extra = new HashMap<>();
-      // extra.put("name", name);
-      extra.put("roles", roles);
+      extra.put("name", name);
+      extra.put("authorities", roles);
 
       return Jwts.builder()
          .setSubject(username)
+         .setIssuedAt(new Date())
          .setExpiration(diaExpiracion)
          .addClaims(extra)
          .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes())) // para java 11
@@ -55,8 +59,9 @@ public class TokenUtils {
             .parseClaimsJws(token)
             .getBody();
          String username = claims.getSubject();
+         Collection<? extends GrantedAuthority> authorities = ((AbstractAuthenticationToken) claims).getAuthorities();
 
-      return new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList()); // contiene el username, vacio y una lista vacia
+      return new UsernamePasswordAuthenticationToken(username, null, authorities); // contiene el username, vacio y una lista vacia
       } catch (JwtException e) {
          return null; // No se ha podido crear el usernamepasswordauthentication token a partir del token recibido.
       }     
