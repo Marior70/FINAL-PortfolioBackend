@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 !**/src/main/resources/
+src/main/java/com/portfolio/backend/Pruebas.java 
 
 ### STS ###
 .apt_generated
