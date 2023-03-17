@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface UsuarioRepo extends JpaRepository <Usuario, Long>{
    
    Optional<Usuario> findOneByUsername(String username);
-   // Boolean existsByUsername(String username);
-   // Boolean existsByEmail(String email);
+   Boolean existsByUsername(String username);
+   Boolean existsByEmail(String email);
 
 }

@@ -35,11 +35,12 @@ public class UsuarioService implements IUsuarioService{
    @Override
    public void crearUsuario(Usuario usr) {
       usr.setPassword(new BCryptPasswordEncoder().encode(usr.getPassword()));
-
       Set<Rol> roles = new HashSet<>();
-      roles.add(rolService.getByRolNombre(RolNombre.ROL_USER).get());
+      roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+      if(usr.getEsAdmin()){
+         roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+      }
       usr.setRoles(roles);
-
       usuarioRepo.save(usr);
    }
 
@@ -60,6 +61,7 @@ public class UsuarioService implements IUsuarioService{
       usr.setName(usrRequest.getName());
       usr.setEmail(usrRequest.getEmail());
       usr.setPassword(new BCryptPasswordEncoder().encode(usrRequest.getPassword()));
+      usr.setEsAdmin(usrRequest.getEsAdmin());
       usr.setEntidad(usrRequest.getEntidad());
       
       usuarioRepo.save(usr);

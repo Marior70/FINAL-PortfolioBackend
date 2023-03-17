@@ -3,6 +3,7 @@ package com.portfolio.backend.controlador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class AptitudCont {
    private AptitudConv listAptDto;
 
    @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<AptitudDTO> obtenerAptitudes() {
       List<Aptitud> per = aptitudServ.obtenerAptitudes();
@@ -37,22 +39,26 @@ public class AptitudCont {
    }
 
    @GetMapping("/buscar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Aptitud buscarAptitud(@PathVariable Long id) {
       return aptitudServ.buscarAptitud(id);
    }
 
    @PostMapping("/nueva")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearAptitud(@RequestBody Aptitud apt) {
       aptitudServ.crearAptitud(apt);
    }
 
    @DeleteMapping("/borrar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarAptitud(@PathVariable Long id) {
       aptitudServ.borrarAptitud(id);
    }
 
    @PutMapping("editar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void editarAptitud(@PathVariable("id") Long id, @RequestBody Aptitud apt) {
       aptitudServ.editarAptitud(id, apt);
    }

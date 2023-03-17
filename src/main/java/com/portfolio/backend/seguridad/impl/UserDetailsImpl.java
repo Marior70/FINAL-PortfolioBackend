@@ -1,7 +1,7 @@
 package com.portfolio.backend.seguridad.impl;
 
 import java.util.Collection;
-import java.util.Set;
+// import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.portfolio.backend.seguridad.roles.Rol;
+// import com.portfolio.backend.seguridad.roles.Rol;
 import com.portfolio.backend.seguridad.usuarios.Usuario;
 
 import lombok.AllArgsConstructor;
@@ -24,7 +24,6 @@ public class UserDetailsImpl implements UserDetails {
       List<GrantedAuthority> authorities = usuario.getRoles().stream().map(
          rol -> new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());   
       return authorities;
-      //return Collections.emptyList();
    }
 
    @Override
@@ -61,7 +60,7 @@ public class UserDetailsImpl implements UserDetails {
       return usuario.getName();
    }
 
-   public Set<Rol> getRoles(){
-      return usuario.getRoles();
+   public String getEntidad(){
+      return usuario.getEntidad();
    }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class ExperienciaCont {
    private ExperienciaConv listExpDto;
 
    @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<ExperienciaDTO> obtenerExperiencias() {
       List<Experiencia> per = experienciaServ.obtenerExperiencias();
@@ -40,23 +42,27 @@ public class ExperienciaCont {
    }
 
    @GetMapping("/buscar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Experiencia buscarExperiencia(@PathVariable Long id) {
       return experienciaServ.buscarExperiencia(id);
    }
 
    @PostMapping("/nueva")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearExperiencia(@RequestBody Experiencia exp) {
       exp.setLogo(pathFile + exp.getLogo());
       experienciaServ.crearExperiencia(exp);
    }
 
    @DeleteMapping("/borrar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarExperiencia(@PathVariable Long id) {
       experienciaServ.borrarExperiencia(id);
    }
    
    @PutMapping("/editar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void editarExperiencia(@PathVariable("id") Long id, @RequestBody Experiencia exp) {
       exp.setLogo(pathFile + exp.getLogo());
       experienciaServ.editarExperiencia(id, exp);

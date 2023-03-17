@@ -1,6 +1,8 @@
 package com.portfolio.backend.seguridad.filtros;
 
 import java.io.IOException;
+// import java.util.Collections;
+// import java.util.Collection;
 import java.util.Collections;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,11 +33,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             AuthCredenciales authCredenciales = new AuthCredenciales();
             try {
             authCredenciales = new ObjectMapper().readValue(request.getReader(), AuthCredenciales.class);
+            System.out.println("-----> JWTAuthenticationFilter / attemptAuthentication --> authCredenciales: " + authCredenciales);
+            System.out.println();
             } catch (IOException e){
-               System.out.println("Formato de credenciales inválidos");
+               System.out.println("--> Formato de credenciales inválidos");
             }
 
             UsernamePasswordAuthenticationToken usernamePAT = new UsernamePasswordAuthenticationToken(authCredenciales.getUsername(),authCredenciales.getPassword(),Collections.emptyList());
+            System.out.println("-----> JWTAuthenticationFilter / attemptAuthentication --> usernamePAT: " + usernamePAT);
+            System.out.println();
+            System.out.println("-----> JWTAuthenticationFilter / attemptAuthentication / response: (getAuthenticationManager().authenticate(usernamePAT)) :" + getAuthenticationManager().authenticate(usernamePAT));
+            System.out.println();
 
             return getAuthenticationManager().authenticate(usernamePAT);
    }
@@ -48,25 +56,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       
       UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
 
-      System.out.println("UserDetails: " + userDetails.getUsername() + ", " + userDetails.getName() + ", " + userDetails.getRoles()); 
+      System.out.println("-----> JWTAuthenticationFilter / successfulAuthentication -- userDetails: " + userDetails.getUsername() + ", " + userDetails.getName() + ", " + userDetails.getAuthorities());
+      System.out.println();
       
-      String token = TokenUtils.crearToken(userDetails.getUsername(), userDetails.getName(), userDetails.getRoles());
+      String token = TokenUtils.crearToken(userDetails.getUsername(), userDetails.getName(), userDetails.getEntidad(), userDetails.getAuthorities());
+      System.out.println("Token: -->  " + token);
       response.addHeader("Authorization", "Bearer " + token);
+      // response.addHeader(token, token);
       response.getWriter().flush();
       super.successfulAuthentication(request, response, chain, authResult);
 
-      
-      System.out.println();
-      System.out.println("Token: " + token);
-      System.out.println();
-      System.out.println("Request: " + request);
-      System.out.println();
-      System.out.println("Response: " + response);
-      System.out.println();
-      System.out.println("Chain: " + chain);
-      System.out.println();
-      System.out.println("Response: " + authResult);
-      System.out.println();
    }
-
 }

@@ -4,7 +4,7 @@ BackEnd del Portfolio Web del T.P. Final de Argentina Programa, #YoProgramo
 
 Se desarrollará una  Api Rest con Java, Spring Boot,  MaríaDB y Jwt.
 
-	Proyecto generado con Initializr (Maven - Spring Boot 3.0.2 - Packging Jar - Java 17)
+	Proyecto generado con Initializr (Maven - Spring Boot 3.0.4 - Packging Jar - Java 17)
 
 	### Dependencias:
 	- Spring-boot-starter-data-jpa
@@ -13,7 +13,7 @@ Se desarrollará una  Api Rest con Java, Spring Boot,  MaríaDB y Jwt.
 	- H2
 	- Mariadb-java-client
 	- Lombok
-	- SSpring-boot-starter-security
+	- Spring-boot-starter-security
 	- Jjwt-api
 	- Jjwt-jackson
 	- Jjwt-impl

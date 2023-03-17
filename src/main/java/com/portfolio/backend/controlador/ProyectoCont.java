@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class ProyectoCont {
    private ProyectoConv listProDto;
 
    @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<ProyectoDTO> obtenerProyectos() {
       List<Proyecto> pro = proyectoServ.obtenerProyectos();
@@ -40,23 +42,27 @@ public class ProyectoCont {
    }
 
    @GetMapping("/buscar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Proyecto buscarProyecto(@PathVariable Long id) {
       return proyectoServ.buscarProyecto(id);
    }
 
    @PostMapping("/nuevo")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearProyecto(@RequestBody Proyecto pro) {
       pro.setLogo(pathFile + pro.getLogo());
       proyectoServ.crearProyecto(pro);
    }
 
    @DeleteMapping("/borrar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarProyecto(@PathVariable Long id) {
       proyectoServ.borrarProyecto(id);
    }
    
    @PutMapping("/editar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void editarProyecto(@PathVariable("id") Long id, @RequestBody Proyecto pro) {
       pro.setLogo(pathFile + pro.getLogo());
       proyectoServ.editarProyecto(id, pro);

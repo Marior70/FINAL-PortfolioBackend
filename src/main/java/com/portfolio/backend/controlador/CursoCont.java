@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ public class CursoCont {
    private CursoConv listCurDto;
 
    @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<CursoDTO> obtenerCursos() {
       List<Curso> cur = cursoServ.obtenerCursos();
@@ -41,23 +43,27 @@ public class CursoCont {
    }
 
    @GetMapping("/buscar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Curso buscarCurso(@PathVariable Long id) {
       return cursoServ.buscarCurso(id);
    }
 
    @PostMapping("/nuevo")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearCurso(@RequestBody Curso cur) {
       cur.setLogo(pathFile + cur.getLogo());
       cursoServ.crearCurso(cur);
    }
 
    @DeleteMapping("/borrar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarCurso(@PathVariable Long id) {
       cursoServ.borrarCurso(id);
    }
    
    @PutMapping("/editar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void editarCurso(@PathVariable("id") Long id, @RequestBody Curso cur) {
       cur.setLogo(pathFile + cur.getLogo());
       cursoServ.editarCurso(id, cur);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class PersonaCont {
    private PersonaConv listPerDto;
 
    @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<PersonaDTO> obtenerPersonas() {
       List<Persona> per = personaServ.obtenerPersonas();      
@@ -40,29 +42,34 @@ public class PersonaCont {
    }
 
    /* @GetMapping("/listar")
+   @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<Persona> obtenerPersonas() {
       return personaServ.obtenerPersonas();
    } */
 
    @GetMapping("/buscar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Persona buscarPersona(@PathVariable Long id) {
       return personaServ.buscarPersona(id);
    }
 
    @PostMapping("/nueva")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearPersona(@RequestBody Persona per) {
       per.setFoto(pathFile + per.getFoto());
       personaServ.crearPersona(per);
    }
 
    @DeleteMapping("/borrar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarPersona(@PathVariable Long id) {
       personaServ.borrarPersona(id);
    }
 
    @PutMapping("/editar/{id}")
+   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void editarPersona(@PathVariable("id") Long id, @RequestBody Persona per) {
       per.setFoto(pathFile + per.getFoto());
       personaServ.editarPersona(id, per);
