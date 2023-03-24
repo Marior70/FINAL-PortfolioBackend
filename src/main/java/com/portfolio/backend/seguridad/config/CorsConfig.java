@@ -14,10 +14,11 @@ public class CorsConfig {
       return new WebMvcConfigurer() {
          @Override
          public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/abrirportfolio")
-                  .allowedOrigins("http://localhost:4200","*")
-                  .allowedMethods("*")
-                  .exposedHeaders("*");
+            System.out.println("-----> WebMvcConfigurer.addCorsMapping");
+            registry.addMapping("/auth/**")
+                  .allowedOrigins("http://localhost:4200")
+                  .allowedMethods("*");
+                  // .exposedHeaders("*"); //()"Authorization","Rol");
 
             registry.addMapping("/api/**")
                   .allowedOrigins("http://localhost:4200")
