@@ -21,7 +21,7 @@ import com.portfolio.backend.convertidorEntidadDto.AptitudConv;
 import com.portfolio.backend.dto.AptitudDTO;
 
 @RestController
-@RequestMapping("/api/aptitud") // Si configuro esta annotation, se debe eliminar "/api/aptitud" de todos los msj HTTP de abajo
+@RequestMapping("/api/aptitud")
 @CrossOrigin
 public class AptitudCont {
 

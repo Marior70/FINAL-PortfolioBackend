@@ -21,7 +21,7 @@ public class ApplicationConfig {
 
    @Bean
    public UserDetailsService userDetailsService() {
-      return username -> repository.findByUsername(username) // findByEmail(username)
+      return username -> repository.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("Usuario inexistente"));
    }
 
@@ -42,10 +42,13 @@ public class ApplicationConfig {
    public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
    }
-
-   /* public static void main(String[] args) {
+   
+/*
+   /////////// Generador de claves 'manual' /////////////////////////////////////////////////////
+   public static void main(String[] args) {
       String pass = "12345678";
       System.out.println("-----> " + pass + "-----> " + new BCryptPasswordEncoder().encode(pass));
-   } */
+   }
+*/
 
 }

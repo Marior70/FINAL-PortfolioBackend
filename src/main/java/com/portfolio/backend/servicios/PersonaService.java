@@ -29,33 +29,25 @@ public class PersonaService implements IPersonaService {
       return personaRepo.findAll();
    }
 
-   @Override
+   /* @Override
    public void crearPersona(Persona per) {
       personaRepo.save(per);
-   }
+   } */
 
-   @Override
+   /* @Override
    public void borrarPersona(Long id) {
-      personaRepo.deleteById(id); // Borrado REAL del registro en la BD.
-      
-      //  Persona per = personaRepo.findById(id).orElseThrow(null);
-      //  per.setBorrado(true);
-      // Borrado lógico del registro en la BS.
-   }
+      personaRepo.deleteById(id); 
+   } */
 
-   @Override
+   /* @Override
    public Persona buscarPersona(Long id) {
       Persona per = personaRepo.findById(id).orElseThrow(null);
       return per;
-   }
+   } */
 
    @Override
-   public void editarPersona(Long id, Persona perRequest) {
-      // per, si existe en la BD, es el registro a actualizar
-      // perRequest, es el registro recibido, con los nuevos valores
-      Persona per = personaRepo.findById(id).orElseThrow(null);
-      // Actualizo el registro per obtenido de la base de datos
-      // con los datos contenidos en perRequest.
+   public void editarPersona(Long id, Persona perRequest) {      
+      Persona per = personaRepo.findById(id).orElseThrow(null);      
       per.setNombres(perRequest.getNombres());
       per.setApellidos(perRequest.getApellidos());
       per.setAcercade(perRequest.getAcercade());

@@ -16,56 +16,66 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-  private static final String SECRET_KEY = "KcDfVwIl8ZP/v0arUDlPq7l/6nnL9SodpVykyEXaA1PHYsCS2IiDasNvv38QtUwRg9IggeNz2x7xyFYD/oFOCvC2n8bSf+CezjeQkl60wzELjj+F0/fRiwW1m/CfqLNlwkDsKkN8oKTAI16uUhE/ZQBQ8rnAAZ2xbrTURtw3+4JnJH6+/3ki9QiRjQ0c2+V9krsZKROCGSYL6NBxvC3W2J9TqmOnyXl2RB1li8aAHqlitb/zQ3C3OsRSGus9j0Qk/5xJkvP8LDjSHQY11qhCMHtG2NrAWHvXTVyQ42olADH09MUkUT+gDIEdShaP2t8hoVBZxjGjsCfLPuAdaY809g==";
-  
-  public String extractUsername(String token) {
-    return extractClaim(token, Claims::getSubject);
-  }
+   private static final String SECRET_KEY =
+   "KcDfVwIl8ZP/v0arUDlPq7l/6nnL9SodpVykyEXaA1PHYsCS2IiDasNvv38QtUwRg9IggeNz2x7xyFYD/oFOCvC2n8bSf+CezjeQkl60wzELjj+F0/fRiwW1m/CfqLNlwkDsKkN8oKTAI16uUhE/ZQBQ8rnAAZ2xbrTURtw3+4JnJH6+/3ki9QiRjQ0c2+V9krsZKROCGSYL6NBxvC3W2J9TqmOnyXl2RB1li8aAHqlitb/zQ3C3OsRSGus9j0Qk/5xJkvP8LDjSHQY11qhCMHtG2NrAWHvXTVyQ42olADH09MUkUT+gDIEdShaP2t8hoVBZxjGjsCfLPuAdaY809g==";
 
-  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-    final Claims claims = extractAllClaims(token);
-    return claimsResolver.apply(claims);
-  }
+/*
+    // No me funcionó... RESOLVER!!! para no exponer la clave
+   @Value("${jwtSecret}")
+   private String SECRET_KEY1;
+   
+   @Value("${jwtExpiration}")
+   private int expiration;
+*/
 
-  public String generateToken(UserDetails userDetails) {
-    return generateToken(new HashMap<>(), userDetails);
-  }
+   public String extractUsername(String token) {
+      return extractClaim(token, Claims::getSubject);
+   }
 
-  public String generateToken(Map<String, Object> extraClaims,UserDetails userDetails) {
-    return Jwts
-        .builder()
-        .setClaims(extraClaims)
-        .setSubject(userDetails.getUsername())
-        .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
-        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-        .compact();
-  }
+   public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+      final Claims claims = extractAllClaims(token);
+      return claimsResolver.apply(claims);
+   }
 
-  public boolean isTokenValid(String token, UserDetails userDetails) {
-    final String username = extractUsername(token);
-    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-  }
+   public String generateToken(UserDetails userDetails) {
+      return generateToken(new HashMap<>(), userDetails);
+   }
 
-  private boolean isTokenExpired(String token) {
-    return extractExpiration(token).before(new Date());
-  }
+   public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+      return Jwts
+            .builder()
+            .setClaims(extraClaims)
+            .setSubject(userDetails.getUsername())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            .compact();
+   }
 
-  private Date extractExpiration(String token) {
-    return extractClaim(token, Claims::getExpiration);
-  }
+   public boolean isTokenValid(String token, UserDetails userDetails) {
+      final String username = extractUsername(token);
+      return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+   }
 
-  private Claims extractAllClaims(String token) {
-    return Jwts
-        .parserBuilder()
-        .setSigningKey(getSignInKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
-  }
+   private boolean isTokenExpired(String token) {
+      return extractExpiration(token).before(new Date());
+   }
 
-  private Key getSignInKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-    return Keys.hmacShaKeyFor(keyBytes);
-  }
+   private Date extractExpiration(String token) {
+      return extractClaim(token, Claims::getExpiration);
+   }
+
+   private Claims extractAllClaims(String token) {
+      return Jwts
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+   }
+
+   private Key getSignInKey() {
+      byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+      return Keys.hmacShaKeyFor(keyBytes);
+   }
 }
