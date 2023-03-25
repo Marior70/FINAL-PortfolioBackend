@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class JwtService {
 
    private static final String SECRET_KEY =
-   "KcDfVwIl8ZP/v0arUDlPq7l/6nnL9SodpVykyEXaA1PHYsCS2IiDasNvv38QtUwRg9IggeNz2x7xyFYD/oFOCvC2n8bSf+CezjeQkl60wzELjj+F0/fRiwW1m/CfqLNlwkDsKkN8oKTAI16uUhE/ZQBQ8rnAAZ2xbrTURtw3+4JnJH6+/3ki9QiRjQ0c2+V9krsZKROCGSYL6NBxvC3W2J9TqmOnyXl2RB1li8aAHqlitb/zQ3C3OsRSGus9j0Qk/5xJkvP8LDjSHQY11qhCMHtG2NrAWHvXTVyQ42olADH09MUkUT+gDIEdShaP2t8hoVBZxjGjsCfLPuAdaY809g==";
+   "KcDfVwIl8ZP/v0arUDlPq7l/6nnL9SodpVykyEXaA1PHYsCS2IiDasNvv38QtUwRg9IggeNz2x7xyFYD/oFOCvC2n8bSf+CezjeQkl60wzELjj+F0/fRiwW1m/CfqLNlwkDsK";
 
 /*
     // No me funcionó... RESOLVER!!! para no exponer la clave
