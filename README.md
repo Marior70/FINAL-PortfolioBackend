@@ -11,7 +11,7 @@ Se desarrollará una  Api Rest con Java, Spring Boot,  MaríaDB y Jwt.
 	- Spring-boot-starter-web
 	- Spring-boot-devtools
 	- H2
-	- Mariadb-java-client
+   - mysql-connector-java
 	- Lombok
 	- Spring-boot-starter-security
 	- Jjwt-api

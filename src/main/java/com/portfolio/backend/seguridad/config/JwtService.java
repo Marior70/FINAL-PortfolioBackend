@@ -10,23 +10,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
 
-   private static final String SECRET_KEY =
-   "KcDfVwIl8ZP/v0arUDlPq7l/6nnL9SodpVykyEXaA1PHYsCS2IiDasNvv38QtUwRg9IggeNz2x7xyFYD/oFOCvC2n8bSf+CezjeQkl60wzELjj+F0/fRiwW1m/CfqLNlwkDsK";
-
-/*
-    // No me funcionó... RESOLVER!!! para no exponer la clave
    @Value("${jwtSecret}")
-   private String SECRET_KEY1;
+   private String SECRET_KEY;
    
    @Value("${jwtExpiration}")
-   private int expiration;
-*/
+   private Long expiracion;
+
 
    public String extractUsername(String token) {
       return extractClaim(token, Claims::getSubject);
@@ -42,12 +39,13 @@ public class JwtService {
    }
 
    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+   	Long expiracionMilisegundos = expiracion * 1000L;
       return Jwts
             .builder()
             .setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+            .setExpiration(new Date(System.currentTimeMillis() + expiracionMilisegundos))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();
    }

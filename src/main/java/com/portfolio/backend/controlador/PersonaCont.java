@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,25 +48,25 @@ public class PersonaCont {
       return personaServ.obtenerPersonas();
    } */
 
-   @GetMapping("/buscar/{id}")
+   /* @GetMapping("/buscar/{id}")
    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    @ResponseBody
    public Persona buscarPersona(@PathVariable Long id) {
       return personaServ.buscarPersona(id);
-   }
+   } */
 
-   @PostMapping("/nueva")
+   /* @PostMapping("/nueva")
    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void crearPersona(@RequestBody Persona per) {
       per.setFoto(pathFile + per.getFoto());
       personaServ.crearPersona(per);
-   }
+   } */
 
-   @DeleteMapping("/borrar/{id}")
+   /* @DeleteMapping("/borrar/{id}")
    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
    public void borrarPersona(@PathVariable Long id) {
       personaServ.borrarPersona(id);
-   }
+   } */
 
    @PutMapping("/editar/{id}")
    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
