@@ -34,8 +34,8 @@ public class AptitudCont {
    @PreAuthorize("hasAuthority('ROLE_USER')")
    @ResponseBody
    public List<AptitudDTO> obtenerAptitudes() {
-      List<Aptitud> per = aptitudServ.obtenerAptitudes();
-      return listAptDto.listarAptitudDto(per);
+      List<Aptitud> apt = aptitudServ.obtenerAptitudes();
+      return listAptDto.listarAptitudDto(apt);
    }
 
    @GetMapping("/buscar/{id}")
