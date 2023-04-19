@@ -16,12 +16,12 @@ public class CorsConfig {
          public void addCorsMappings(CorsRegistry registry) {
             // System.out.println("-----> WebMvcConfigurer.addCorsMapping");
             registry.addMapping("/auth/**")
-                  .allowedOrigins("http://localhost:4200")
+                  .allowedOrigins("https://portfolioweb-mrl.web.app")
                   .allowedMethods("*");
                   // .exposedHeaders("*"); //()"Authorization","Rol");
 
             registry.addMapping("/api/**")
-                  .allowedOrigins("http://localhost:4200")
+                  .allowedOrigins("https://portfolioweb-mrl.web.app")
                   .allowedMethods("*");
          }
       };
